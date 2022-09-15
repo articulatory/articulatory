@@ -45,12 +45,6 @@ python3 local/combine_feats.py downloads/emadata/cin_us_mngu0 --feats pitch acti
 
 - Stage 1 in `./run.sh` is preprocessing and thus only needs to be run once per train-dev.-eval. triple. Stage 2 is training, so subsequent training experiments with the same data can use `./run.sh --stage 2`.
 - Replace `conf/e2w_hifigan.yaml` with `conf/e2w_hifigan_car.yaml` to use our autoregressive model (HiFi-GAN CAR)
-- To train with batches containing entire utterances as in [Gaddy & Klein, 2021](https://arxiv.org/abs/2106.01933), add the following to the config:
-```
-batch_sampler_type: SizeAwareSampler
-batch_sampler_params:
-    max_len: 256000  # = batch_size*batch_max_steps
-```
 
 ## Creating Your Own Speech Synthesizer
 
