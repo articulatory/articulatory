@@ -19,8 +19,8 @@ import yaml
 from scipy import stats
 from tqdm import tqdm
 
-from ats.bin.decode import ar_loop
-from ats.utils import find_files, load_model, read_hdf5
+from articulatory.bin.decode import ar_loop
+from articulatory.utils import find_files, load_model, read_hdf5
 
 
 hubert_device = 0
