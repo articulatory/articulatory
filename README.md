@@ -1,4 +1,4 @@
-# Deep Speech Synthesis from Articulatory Representations
+# Deep Articulatory Synthesis and Inversion
 
 > Pytorch implementation for deep articulatory synthesis and inversion.
 
