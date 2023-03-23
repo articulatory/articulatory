@@ -1,6 +1,6 @@
 # Speaker-Independent Acoustic-to-Articulatory Speech Inversion
 
-More details will be added soon!
+More details will be added soon! Code will be available at [https://github.com/articulatory/articulatory](https://github.com/articulatory/articulatory).
 
 ## L1 Distances Per Phoneme
 
