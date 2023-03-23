@@ -6,20 +6,31 @@ Correspondence to:
 
   - Peter Wu (peterw1@berkeley.edu)
 
-## Paper
+## Papers
+
+If you find this repository useful, please cite our respective paper:
 
 [**Deep Speech Synthesis from Articulatory Representations**](http://arxiv.org/abs/2209.06337)<br>
-[Peter Wu](https://peter.onrender.com/), [Shinji Watanabe](https://sites.google.com/view/shinjiwatanabe), [Louis Goldstein](https://sail.usc.edu/~lgoldste/me/), [Alan W Black](https://www.cs.cmu.edu/~awb/), and [Gopala K. Anumanchipalli](https://www2.eecs.berkeley.edu/Faculty/Homepages/gopala.html)<br>
 Interspeech 2022
 
-If you find this repository useful, please cite our paper:
-
 ```
-@inproceedings{peter2022artic,
+@inproceedings{peter2022artsyn,
   title={Deep Speech Synthesis from Articulatory Representations},
   author={Wu, Peter and Watanabe, Shinji and Goldstein, Louis and Black, Alan W and Anumanchipalli, Gopala Krishna},
   booktitle={Interspeech},
   year={2022}
+}
+```
+
+[**Speaker-Independent Acoustic-to-Articulatory Speech Inversion**](https://arxiv.org/abs/2302.06774)<br>
+ICASSP 2023
+
+```
+@inproceedings{peter2023artinv,
+  title={Speaker-Independent Acoustic-to-Articulatory Speech Inversion},
+  author={Wu, Peter and Chen, Li-Wei and Cho, Cheol Jun and Watanabe, Shinji and Goldstein, Louis and Black, Alan W and Anumanchipalli, Gopala K},
+  booktitle={ICASSP},
+  year={2023}
 }
 ```
 
