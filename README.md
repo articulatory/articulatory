@@ -44,6 +44,8 @@ pip3 install -e .
 
 ## EMA-to-Speech
 
+### Training
+
 ```bash
 cd egs/ema/voc1
 mkdir downloads
@@ -56,6 +58,16 @@ python3 local/combine_feats.py downloads/emadata/cin_us_mngu0 --feats pitch acti
 
 - Stage 1 in `./run.sh` is preprocessing and thus only needs to be run once per train-dev.-eval. triple. Stage 2 is training, so subsequent training experiments with the same data can use `./run.sh --stage 2`.
 - Replace `conf/e2w_hifigan.yaml` with `conf/e2w_hifigan_car.yaml` to use our autoregressive model (HiFi-CAR)
+
+### Inference
+
+```bash
+python3 local/inference_wav.py \
+        --scp [feature_scp_file] \
+        --outdir [output_dir] \
+        --checkpoint [model_ckpt_file] \
+        --config [model_config_file]
+```
 
 ## Speech-to-EMA
 
