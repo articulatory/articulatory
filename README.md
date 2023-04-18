@@ -34,7 +34,7 @@ python3 local/combine_feats.py downloads/emadata/cin_us_mngu0 --feats pitch acti
 ### Inference
 
 ```bash
-python3 local/inference_wav.py \
+python3 local/predict_wav.py \
         --scp [feature_scp_file] \
         --outdir [output_dir] \
         --checkpoint [model_ckpt_file] \
