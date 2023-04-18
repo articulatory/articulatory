@@ -6,34 +6,6 @@ Correspondence to:
 
   - Peter Wu (peterw1@berkeley.edu)
 
-## Papers
-
-If you find this repository useful, please cite our respective paper:
-
-[**Deep Speech Synthesis from Articulatory Representations**](http://arxiv.org/abs/2209.06337)<br>
-Interspeech 2022
-
-```
-@inproceedings{peter2022artsyn,
-  title={Deep Speech Synthesis from Articulatory Representations},
-  author={Wu, Peter and Watanabe, Shinji and Goldstein, Louis and Black, Alan W and Anumanchipalli, Gopala Krishna},
-  booktitle={Interspeech},
-  year={2022}
-}
-```
-
-[**Speaker-Independent Acoustic-to-Articulatory Speech Inversion**](https://arxiv.org/abs/2302.06774)<br>
-ICASSP 2023
-
-```
-@inproceedings{peter2023artinv,
-  title={Speaker-Independent Acoustic-to-Articulatory Speech Inversion},
-  author={Wu, Peter and Chen, Li-Wei and Cho, Cheol Jun and Watanabe, Shinji and Goldstein, Louis and Black, Alan W and Anumanchipalli, Gopala K},
-  booktitle={ICASSP},
-  year={2023}
-}
-```
-
 ## Installation
 
 ```bash
@@ -86,6 +58,34 @@ cp -r TEMPLATE/voc1 <your_id>
 
 - To use your own model, add the model code to a new file in `articulatory/models` and an extra line referencing that file in `articulatory/models/__init__.py`. Then, change `generator_type` or `discriminator_type` in the `.yaml` config to the name of the new model class.
 - To customize the loss function, similarly modify the code in `articulatory/losses`. Then, call the loss function in `articulatory/bin/train.py`. Existing loss functions can be toggled on/off and modified through the `.yaml` config, e.g., in the "STFT LOSS SETTING" and "ADVERSARIAL LOSS SETTING" sections.
+
+## Papers
+
+If you find this repository useful, please cite our respective paper:
+
+[**Deep Speech Synthesis from Articulatory Representations**](http://arxiv.org/abs/2209.06337)<br>
+Interspeech 2022
+
+```
+@inproceedings{peter2022artsyn,
+  title={Deep Speech Synthesis from Articulatory Representations},
+  author={Wu, Peter and Watanabe, Shinji and Goldstein, Louis and Black, Alan W and Anumanchipalli, Gopala Krishna},
+  booktitle={Interspeech},
+  year={2022}
+}
+```
+
+[**Speaker-Independent Acoustic-to-Articulatory Speech Inversion**](https://arxiv.org/abs/2302.06774)<br>
+ICASSP 2023
+
+```
+@inproceedings{peter2023artinv,
+  title={Speaker-Independent Acoustic-to-Articulatory Speech Inversion},
+  author={Wu, Peter and Chen, Li-Wei and Cho, Cheol Jun and Watanabe, Shinji and Goldstein, Louis and Black, Alan W and Anumanchipalli, Gopala K},
+  booktitle={ICASSP},
+  year={2023}
+}
+```
 
 ## Acknowledgements
 
