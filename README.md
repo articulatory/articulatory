@@ -45,6 +45,8 @@ python3 local/predict_wav.py \
 
 ## Speech-to-EMA
 
+Here is a [link](https://drive.google.com/drive/folders/1O-1kX_ngHf1T8EN7HXWABCaEIJLNqxUI?usp=sharing) to the weights of an already-trained articulatory inversion model. Inputs to this model are 16 kHz waveforms and the first 12 dimensions of the outputs are EMA features (lower incisor x, y, upper lip x, y, lower lip x, y, tongue tip x, y, tongue body x, y, tongue dorsum x, y).
+
 ```bash
 cd egs/ema/voc1
 python3 local/predict_ema.py [model_dir] [input_wav_dir] [output_dir]
