@@ -33,7 +33,7 @@ python3 local/combine_feats.py downloads/emadata/cin_us_mngu0 --feats pitch acti
 
 ### Inference
 
-Here is a [link](https://drive.google.com/drive/folders/1OMoF8DgNkobANBVLTId067RgUVq27_WL?usp=sharing) to the weights of an already-trained HiFi-CAR model. Inputs to this model are 200-Hz, 12-dimensional EMA features (tongue dorsum x, y, tongue body x, y, tongue tip x, y, lower incisor x, y, upper lip x, y, lower lip x, y).
+Here is a [link](https://drive.google.com/drive/folders/1OMoF8DgNkobANBVLTId067RgUVq27_WL?usp=sharing) to the weights of an already-trained HiFi-CAR model. Inputs to this model are 200-Hz, 12-dimensional EMA features (tongue dorsum x, y, tongue body x, y, tongue tip x, y, lower incisor x, y, upper lip x, y, lower lip x, y). Our synthesis model with normalized pitch plus EMA as input (13-dimensional) is [here](https://drive.google.com/drive/folders/13_RrfSuAEMA17V6O6FIv8pSbZl8Z8vwm?usp=sharing).
 
 ```bash
 python3 local/predict_wav.py \
