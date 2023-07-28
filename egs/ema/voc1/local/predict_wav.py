@@ -21,7 +21,6 @@ from tqdm import tqdm
 from articulatory.bin.decode import ar_loop
 from articulatory.utils import load_model
 
-
 def main():
     """Run decoding process."""
     parser = argparse.ArgumentParser(
@@ -54,14 +53,6 @@ def main():
         type=str,
         help="yaml format configuration file. if not explicitly provided, "
         "it will be searched in the checkpoint directory. (default=None)",
-    )
-    parser.add_argument(
-        "--normalize-before",
-        default=False,
-        action="store_true",
-        help="whether to perform feature normalization before input to the model. "
-        "if true, it assumes that the feature is de-normalized. this is useful when "
-        "text2mel model and vocoder use different feature statistics.",
     )
     parser.add_argument(
         "--verbose",
@@ -114,15 +105,12 @@ def main():
         featps.append(featp)
 
     # setup model
-    # if torch.cuda.is_available():
-    device = torch.device("cuda")
-    # else:
-    #     device = torch.device("cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    else:
+        device = torch.device("cpu")
     model = load_model(args.checkpoint, config)
     logging.info(f"Loaded model parameters from {args.checkpoint}.")
-    if args.normalize_before:
-        assert hasattr(model, "mean"), "Feature stats are not registered."
-        assert hasattr(model, "scale"), "Feature stats are not registered."
     model.remove_weight_norm()
     model = model.eval().to(device)
 
@@ -141,11 +129,11 @@ def main():
             input_lens.append(len(c))
             if c.shape[0] > 250:
                 if "use_ar" in config["generator_params"] and config["generator_params"]["use_ar"]:
-                    y = ar_loop(model, c, config, normalize_before=False, audio_chunk_len=config["batch_max_steps"])
+                    y = ar_loop(model, c, config)
                 else:
                     if len(c.shape) == 1:
                         c = c.long()
-                    y = model.inference(c, normalize_before=False)
+                    y = model.inference(c)
                 sf.write(os.path.join(config["outdir"], fid+'.wav'), y.cpu().numpy(), config["sampling_rate"])
 
 if __name__ == "__main__":
