@@ -111,9 +111,6 @@ def main():
         device = torch.device("cpu")
     model = load_model(args.checkpoint, config)
     logging.info(f"Loaded model parameters from {args.checkpoint}.")
-    # if args.normalize_before:
-    #     assert hasattr(model, "mean"), "Feature stats are not registered."
-    #     assert hasattr(model, "scale"), "Feature stats are not registered."
     model.remove_weight_norm()
     model = model.eval().to(device)
 
@@ -126,7 +123,7 @@ def main():
     input_lens = []
     with torch.no_grad():
         for fid, featp in tqdm(zip(fids, featps), total=len(fids)):
-            c = np.load(featp, allow_pickle=True)
+            c = np.load(featp)
             # generate
             c = torch.tensor(c, dtype=torch.float).to(device)
             input_lens.append(len(c))
