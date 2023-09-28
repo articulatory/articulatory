@@ -33,7 +33,7 @@ python3 local/combine_feats.py downloads/emadata/cin_us_mngu0 --feats pitch acti
 
 ### Inference
 
-Here is a [link](https://drive.google.com/drive/folders/1OMoF8DgNkobANBVLTId067RgUVq27_WL?usp=sharing) to the weights of an already-trained HiFi-CAR model. Inputs to this model are 200-Hz, 12-dimensional EMA features (tongue dorsum x, y, tongue body x, y, tongue tip x, y, lower incisor x, y, upper lip x, y, lower lip x, y). Our synthesis model with normalized pitch plus EMA as input (13-dimensional) is [here](https://drive.google.com/drive/folders/13_RrfSuAEMA17V6O6FIv8pSbZl8Z8vwm?usp=sharing).
+Here is a [link](https://drive.google.com/drive/folders/1OMoF8DgNkobANBVLTId067RgUVq27_WL?usp=sharing) to the weights of an already-trained HiFi-CAR model. Inputs to this model are 200-Hz, 12-dimensional EMA features (tongue dorsum x, y, tongue body x, y, tongue tip x, y, lower incisor x, y, upper lip x, y, lower lip x, y). Our synthesis model with normalized pitch plus EMA as input (13-dimensional) is [here](https://drive.google.com/drive/folders/13_RrfSuAEMA17V6O6FIv8pSbZl8Z8vwm?usp=sharing). [Here](https://drive.google.com/drive/folders/1DTOcMnYi_bmFKWT2HIPXm848yD9kwdUd?usp=sharing) is the model for tract variable (TV) to speech, and [here](https://drive.google.com/drive/folders/1sy-nFcPodlq3Zw3DgAAmFg2Hv3H2mNSy?usp=sharing) is the model for normalized pitch + TV to speech. TV features are LA, LP, JA, TTCL, TTCD, TMCL, TMCD, TRCL, and TRCD, as described [here](https://arxiv.org/abs/2302.06774).
 
 ```bash
 python3 local/predict_wav.py \
