@@ -176,15 +176,13 @@ def main():
                 return_utt_id=True,
                 return_sampling_rate=True,
             )
-    elif dataset_mode == 'art' or dataset_mode == 'a2w' or dataset_mode == 'w2a' or dataset_mode == 'ph2a' or dataset_mode == 'a2m' or dataset_mode == 'm2a':
+    else:
         dataset = AudioSCPDataset( # same as default bc only need mel
                 args.wav_scp,
                 segments=args.segments,
                 return_utt_id=True,
                 return_sampling_rate=True,
             )
-    else:
-        raise ValueError("dataset_mode %s not supported." % dataset_mode)
 
     # check directly existence
     if not os.path.exists(args.dumpdir):

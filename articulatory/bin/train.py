@@ -955,8 +955,12 @@ class SpeechCollater(object):
             self.use_mel = True
             self.use_art = False
         else:
-            logging.error('dataset_mode %s not supported' % self.dataset_mode)
-            exit()
+            xy = self.dataset_mode.split('2')
+            self.x_key = xy[0]
+            self.y_key = xy[1]
+            self.use_audio = True
+            self.use_mel = False
+            self.use_art = True
 
     def __call__(self, batch):
         """Convert into batch tensors.
@@ -1208,20 +1212,16 @@ class SpeechCollaterMult(object):
             else:
                 return (y_batch,), art_batch
         else:
-            if self.dataset_mode == 'a2w' or self.dataset_mode == 'a2w_mult':
-                ar_batch = []
-                for x, start in zip(audios, y_starts):
-                    if start >= self.ar_len:
-                        ar = x[start-self.ar_len:start]
-                    else:
-                        ar = x[:start]
-                        ar = np.pad(ar, (self.ar_len-len(ar), 0), 'constant', constant_values=0)
-                    ar_batch.append(ar)
-                ar_batch = torch.tensor(ar_batch, dtype=torch.float).unsqueeze(1)  # (B, 1, T_ar)
-                return (art_batch,), y_batch, ar_batch
-            else:
-                logging.error('%s not supported for ar case' % self.dataset_mode)
-                exit()
+            ar_batch = []
+            for x, start in zip(audios, y_starts):
+                if start >= self.ar_len:
+                    ar = x[start-self.ar_len:start]
+                else:
+                    ar = x[:start]
+                    ar = np.pad(ar, (self.ar_len-len(ar), 0), 'constant', constant_values=0)
+                ar_batch.append(ar)
+            ar_batch = torch.tensor(ar_batch, dtype=torch.float).unsqueeze(1)  # (B, 1, T_ar)
+            return (art_batch,), y_batch, ar_batch
 
 
 class Collater(object):
@@ -1569,7 +1569,7 @@ def main():
         )
         train_collater = collater
         dev_collater = collater
-    elif dataset_mode == 'a2w' or dataset_mode == 'w2a' or dataset_mode == 'ph2a' or dataset_mode == 'ph2m' or dataset_mode == 'm2w':
+    else:
         assert args.train_dumpdir is not None and args.dev_dumpdir is not None
         use_spk_id = config["generator_params"].get("use_spk_id", False)
         use_ph = config["generator_params"].get("use_ph", False) or config["generator_params"].get("use_ph_loss", False) \
@@ -1600,35 +1600,6 @@ def main():
             use_noise_input=config.get("generator_type", "ParallelWaveGANGenerator") in ["ParallelWaveGANGenerator"],
             dataset_mode=dataset_mode, use_spk_id=use_spk_id, use_ph=use_ph, config=config,
         )  # NOTE package_mode originally was always random_window for dev
-    elif dataset_mode == 'a2w_mult':
-        assert args.train_dumpdirs is not None
-        assert args.dev_dumpdirs is not None
-        train_dataset = WavArtMultDataset(
-            root_dirs=args.train_dumpdirs.split(), audio_query=audio_query, audio_load_fn=audio_load_fn,
-            allow_cache=config.get("allow_cache", False), transform=transform,
-            sampling_rate=config["sampling_rate"], sampling_rates=config["sampling_rates"],
-            ignore_modalities=config["ignore_modalities"],
-        )
-        dev_dataset = WavArtMultDataset(
-            root_dirs=args.dev_dumpdirs.split(), audio_query=audio_query, audio_load_fn=audio_load_fn,
-            allow_cache=config.get("allow_cache", False), transform=transform,
-            sampling_rate=config["sampling_rate"], sampling_rates=config["sampling_rates"],
-            ignore_modalities=config["ignore_modalities"],
-        )
-        collater = SpeechCollaterMult(
-            batch_max_steps=config["batch_max_steps"], hop_size=config["hop_size"],
-            aux_context_window=config["generator_params"].get("aux_context_window", 0), # so 0
-            use_noise_input=config.get("generator_type", "ParallelWaveGANGenerator") in ["ParallelWaveGANGenerator"],
-            ar_len=None if not config["generator_params"].get("use_ar", False) else config["generator_params"].get("ar_input", 512),
-            dataset_mode=dataset_mode,
-            hop_sizes=config["hop_sizes"],
-            sampling_rate=config["sampling_rate"],
-            sampling_rates=config["sampling_rates"],
-        )
-        train_collater = collater
-        dev_collater = collater
-    else:
-        raise ValueError("dataset_mode %s not supported." % dataset_mode)
 
     logging.info(f"The number of training files = {len(train_dataset)}.")
     logging.info(f"The number of development files = {len(dev_dataset)}.")
@@ -1732,9 +1703,11 @@ def main():
     else:
         config["use_feat_match_loss"] = False
     if config.get("use_mel_loss", False):  # keep compatibility
-        if "dataset_mode" not in config or config["dataset_mode"] == 'default' or config["dataset_mode"] == 'a2w' \
-                or config["dataset_mode"] == 'a2w_mult' or config["dataset_mode"] == 'm2w' \
-                or ('generator2_type' in config and config["dataset_mode"] == 'w2a'):
+        if config["dataset_mode"] == 'art' or config["dataset_mode"] == 'a2m' or config["dataset_mode"] == 'w2a' or config["dataset_mode"] == 'm2a' \
+                or config["dataset_mode"] == 'ph2a' or dataset_mode == 'ph2m':
+            # note generator2_type + w2a still uses MelSpectrogramLoss
+            criterion["mel"] = F.l1_loss
+        else:
             if config.get("mel_loss_params", None) is None:
                 criterion["mel"] = MelSpectrogramLoss(
                     fs=config["sampling_rate"],
@@ -1750,12 +1723,6 @@ def main():
                 criterion["mel"] = MelSpectrogramLoss(
                     **config["mel_loss_params"],
                 ).to(device)
-        elif config["dataset_mode"] == 'art' or config["dataset_mode"] == 'a2m' or config["dataset_mode"] == 'w2a' or config["dataset_mode"] == 'm2a' \
-                or config["dataset_mode"] == 'ph2a' or dataset_mode == 'ph2m':
-            # note generator2_type + w2a still uses MelSpectrogramLoss
-            criterion["mel"] = F.l1_loss
-        else:
-            raise ValueError("dataset_mode %s not supported" % config["dataset_mode"])
     else:
         config["use_mel_loss"] = False
     if config.get("use_inter_loss", False):  # keep compatibility
