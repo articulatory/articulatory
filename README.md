@@ -52,6 +52,8 @@ cd egs/ema/voc1
 python3 local/predict_ema.py [model_dir] [input_wav_dir] [output_dir]
 ```
 
+Speech-to-EMA with a [linear regression model](https://arxiv.org/abs/2210.11723) can be done with `egs/ema/voc1/local/linear_inference.py`. The weights to this model are [here](https://drive.google.com/file/d/1o83bVUbkmCbMoUtmF5T9Tfkz_buBCMOy/view?usp=sharing), and the order of the EMA features here is: tongue dorsum x, y, tongue body x, y, tongue tip x, y, lower incisor x, y, upper lip x, y, lower lip x, y.
+
 ## Creating Your Own Speech Synthesizer
 
 ```bash
@@ -88,6 +90,18 @@ ICASSP 2023
   author={Wu, Peter and Chen, Li-Wei and Cho, Cheol Jun and Watanabe, Shinji and Goldstein, Louis and Black, Alan W and Anumanchipalli, Gopala K},
   booktitle={ICASSP},
   year={2023}
+}
+```
+
+[**Evidence of Vocal Tract Articulation in Self-Supervised Learning of Speech**](https://arxiv.org/abs/2210.11723)<br>
+ICASSP 2023
+
+```
+@inproceedings{cho2023evidence,
+  title={Evidence of Vocal Tract Articulation in Self-Supervised Learning of Speech},
+  author={Cho, Cheol Jun and Wu, Peter and Mohamed, Abdelrahman and Anumanchipalli, Gopala K},
+  booktitle={ICASSP},
+  year={2023},
 }
 ```
 
