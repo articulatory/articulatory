@@ -1,6 +1,6 @@
-# Deep Articulatory Synthesis and Inversion
+# Articulatory Synthesis and Inversion
 
-> Pytorch implementation for deep articulatory synthesis and inversion.
+> Machine learning models for articulatory-to-acoustic synthesis and acoustic-to-articulatory inversion.
 
 Correspondence to: 
 
